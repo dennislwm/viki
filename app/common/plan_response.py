@@ -1,14 +1,13 @@
 from abc import ABC
 from common.base_response import BaseResponse
+from common.ssh_command import MODS_COMMAND
 
 class PlanResponse(BaseResponse, ABC):
   def __init__(self, logger, ssh, config:dict, state:dict):
     self.log = logger
     self.log.fn = self.__class__.__name__ + '.' + self.__init__.__name__
     self.ssh = ssh
-    unknown_mods = self.check_schema(config, schema={
-      'wget': {}
-    })
+    unknown_mods = self.check_schema(config, schema=MODS_COMMAND)
     if unknown_mods != set():
       self.log.error('Unknown modules {} found in mods.'.format(unknown_mods))
     self.config = config

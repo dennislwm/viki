@@ -17,6 +17,7 @@ def main():
     desc='CLI application that manages servers using a declarative configuration'
   )
   request = CliRequest(logger, path=cli.args().path)
+  logger.fn = __name__
   if not 'hostname' in request.vars or not 'username' in request.vars or not 'password' in request.vars or request.vars['hostname'] == '' or request.vars['username'] == '' or request.vars['password'] == '':
     logger.error('SSH credentials not found.')
     sys.exit(1)
@@ -35,7 +36,7 @@ def main():
     sys.exit(1)
 
   if cli.args().command == 'fetch':
-    fetch_response = FetchResponse(logger, ssh, request.data)
+    fetch_response = FetchResponse(logger, ssh, request.data, request.vars)
     fetch_response.fetch()
     request.state['viki']['data'] = fetch_response.state
     request.write_state(request.state)
@@ -51,10 +52,10 @@ def main():
         logger.info('destroy:\n{}'.format(plan_response.pretty_json(plan_response.delta_remove)))
       logger.info('Plan {} to add, {} to destroy.'.format(plan_response.count_insert, plan_response.count_remove))
       if cli.args().command == 'apply':
-        fetch_response = FetchResponse(logger, ssh, request.data)
+        fetch_response = FetchResponse(logger, ssh, request.data, request.vars)
         fetch_response.fetch()
         request.state['viki']['data'] = fetch_response.state
-        apply_response = ApplyResponse(logger, ssh, plan_response.delta_insert, plan_response.delta_remove, request.state_mods)
+        apply_response = ApplyResponse(logger, ssh, plan_response.delta_insert, plan_response.delta_remove, request.state_mods, request.vars)
         if request.approval():
           if plan_response.count_insert > 0: apply_response.apply_insert()
           if plan_response.count_remove > 0: apply_response.apply_remove()
