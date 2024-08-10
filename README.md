@@ -24,9 +24,25 @@ The audience for this document includes:
 
 3. The `viki` CLI application allows the DevSecOps to create a YAML configuration file that specifies the desired outcome for a server, and stores the current state in a JSON state file.
 
-4. The priority in which mods are created is the same as the configuration file, however, in reverse when destroyed. Alternatively, you can set `mod.<mod_name>.precedence` to a value between `1` (highest) and `9` (lowest) for priority of creation.
+4. The `viki` CLI application allows the Developer to manage command modules, without editing the Python code, by using dictionary constants `DATA_COMMAND` and `MODS_COMMAND`.
+  * `DATA_COMMAND` is defined as a JSON object with `<MOD>` and `<CMD>` pairs.
+  * `MODS_COMMAND` is defined as a JSON object with `<MOD>` and `{ "insert": "<CMD>", "remove", "<CMD>" }` pairs.
 
-## 2.2. Workflow
+5. The `viki` CLI application supports `sudo` command with both password and passwordless authentication. When `sudo_password` is set to a non-empty string value, password authentication is used instead of passwordless.
+
+## 2.2. Limitations
+
+This project has several limitations.
+
+* No dependencies between modules and instances of modules.
+* You cannot perform an `update` to your resource.
+  * You should `destroy` your current resource and `add` a new one.
+* No priority when resources are created or destroyed during the `apply` stage.
+  * A workaround is to create your configuration files in order, e.g. `01.vk.yaml`, `02.vk.yaml`, and to remove them in the reverse order.
+* No support for local server.
+  * TODO: When `hostname` is set to `localhost`, the commands will be applied to the current workstation.
+
+## 2.3. Workflow
 
 This project uses several methods and products to optimize your workflow.
 
@@ -38,7 +54,7 @@ This project uses several methods and products to optimize your workflow.
 * Use a linter (**check-jsonschema**) to lint the rules YAML file.
 * Use a containerization platform (**Docker**) to run your application in any environment.
 
-## 2.3. Security
+## 2.4. Security
 
 This project has the following security.
 
@@ -46,7 +62,7 @@ This project has the following security.
   * A `<var_name>` associated with an environment variable `VK_VAR_<var_name>` will use that value.
 
 
-## 2.4. `viki` CLI Application
+## 2.5. `viki` CLI Application
 
 The `viki` CLI application has several commands:
   * A `fetch` command retrieves the outputs of data modules from a server and updates the JSON state file.
@@ -267,3 +283,16 @@ ok -- validation done
 ```
 
 </details>
+
+---
+# 8. References
+
+The following resources were used as a single-use reference.
+
+|                                         Title                                          |   Type   |   Author   |
+|:--------------------------------------------------------------------------------------:|:--------:|:----------:|
+| [Remote command execution in python using paramiko that supports arbitrary input][r02] |   Blog   | Joe Linoff |
+|                   [SSH Copy ID for Copying SSH Keys to Servers][r01]                   | Document |    SSH     |
+
+[r02]: https://joelinoff.com/blog/?p=905
+[r01]: https://www.ssh.com/academy/ssh/copy-id
