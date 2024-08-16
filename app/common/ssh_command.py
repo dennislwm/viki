@@ -6,9 +6,17 @@ DATA_COMMAND={
 }
 
 MODS_COMMAND={
+  "cloudflared": {
+    "insert": "sudo docker run -d --rm --name ${name} cloudflare/cloudflared:latest tunnel --no-autoupdate run --token ${token}",
+    "remove": "sudo docker container stop ${name}"
+  },
+  "compose": {
+    "insert": "sudo docker-compose -f ${path} up -d",
+    "remove": "sudo docker-compose -f ${path} down"
+  },
   "mkdir": {
-    "insert": "sudo mkdir -p ${path}",
-    "remove": "sudo rmdir ${path}"
+    "insert": "mkdir -p ${path}",
+    "remove": "rmdir ${path}"
   },
   "wget": {
     "insert": "wget -O ${path}/${output} ${url}",

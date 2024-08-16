@@ -289,10 +289,12 @@ ok -- validation done
 
 The following resources were used as a single-use reference.
 
-|                                         Title                                          |   Type   |   Author   |
-|:--------------------------------------------------------------------------------------:|:--------:|:----------:|
-| [Remote command execution in python using paramiko that supports arbitrary input][r02] |   Blog   | Joe Linoff |
-|                   [SSH Copy ID for Copying SSH Keys to Servers][r01]                   | Document |    SSH     |
+|                                         Title                                          |   Type   |    Author    |
+|:--------------------------------------------------------------------------------------:|:--------:|:------------:|
+|                           [Lissy93/portainer-templates][r03]                           |  GitHub  | Alicia Sykes |
+| [Remote command execution in python using paramiko that supports arbitrary input][r02] |   Blog   |  Joe Linoff  |
+|                   [SSH Copy ID for Copying SSH Keys to Servers][r01]                   | Document |     SSH      |
 
+[r03]: https://github.com/Lissy93/portainer-templates
 [r02]: https://joelinoff.com/blog/?p=905
 [r01]: https://www.ssh.com/academy/ssh/copy-id
