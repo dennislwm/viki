@@ -109,7 +109,7 @@ class MySSH:
 
         return self.transport is not None
 
-    def run(self, cmd, input_data=None, timeout=10):
+    def run(self, cmd, input_data=None, timeout=180):
         '''
         Run a command with optional input data.
 
