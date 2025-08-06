@@ -7,7 +7,7 @@ DATA_COMMAND={
 
 MODS_COMMAND={
   "cloudflared": {
-    "insert": "sudo docker run -d --rm --name ${name} cloudflare/cloudflared:latest tunnel --no-autoupdate run --token ${token}",
+    "insert": "sudo docker ps --format '{{.Names}}' | grep -q '^${name}$' || sudo docker run -d --rm --name ${name} cloudflare/cloudflared:latest tunnel --no-autoupdate run --token ${token}",
     "remove": "sudo docker container stop ${name}"
   },
   "compose": {
@@ -15,7 +15,7 @@ MODS_COMMAND={
     "remove": "sudo docker-compose -f ${path} down"
   },
   "gitwiki": {
-    "insert": "sudo git clone ${repo} /var/snap/docker/common/var-lib-docker/volumes/${volume}/_data/${folder}",
+    "insert": "[ -d /var/snap/docker/common/var-lib-docker/volumes/${volume}/_data/${folder} ] || sudo git clone ${repo} /var/snap/docker/common/var-lib-docker/volumes/${volume}/_data/${folder}",
     "remove": "sudo rm -rf /var/snap/docker/common/var-lib-docker/volumes/${volume}/_data/${folder}"
   },
   "mkdir": {
@@ -23,7 +23,7 @@ MODS_COMMAND={
     "remove": "rmdir ${path}"
   },
   "wget": {
-    "insert": "wget -O ${path}/${output} ${url}",
+    "insert": "[ -f ${path}/${output} ] || wget -O ${path}/${output} ${url}",
     "remove": "rm ${path}/${output}"
   }
 }
