@@ -14,6 +14,10 @@ MODS_COMMAND={
     "insert": "sudo docker-compose -f ${path} up -d",
     "remove": "sudo docker-compose -f ${path} down"
   },
+  "gitwiki": {
+    "insert": "sudo git clone ${repo} /var/snap/docker/common/var-lib-docker/volumes/${volume}/_data/${folder}",
+    "remove": "sudo rm -rf /var/snap/docker/common/var-lib-docker/volumes/${volume}/_data/${folder}"
+  },
   "mkdir": {
     "insert": "mkdir -p ${path}",
     "remove": "rmdir ${path}"

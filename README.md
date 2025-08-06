@@ -1,7 +1,7 @@
 # viki
 
 <h1 align="center" style="border-bottom: none;">viki</h1>
-<h3 align="center">A CLI application that manages servers using a declarative configuration file and a state file.</h3>
+<h3 align="center">A CLI application that manages servers using both declarative configuration and state files.</h3>
 <br />
 <p align="center">
   <p align="center">
@@ -28,7 +28,7 @@
 
 ## Purpose
 
-This document describes the `viki` CLI application that manages servers using a declarative configuration file and a state file.
+This document describes the `viki` CLI application that manages servers using both declarative configuration file and state files.
 
 ## Audience
 
