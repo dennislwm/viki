@@ -70,8 +70,37 @@ class CliRequest():
       fp.close()
     return viki
 
+  def __load_env_file(self):
+    """Load environment variables from .env file in the specified path"""
+    env_file = os.path.join(self.path, '.env')
+    if os.path.exists(env_file):
+      try:
+        with open(env_file, 'r') as f:
+          for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+              # Handle 'export KEY=value' format
+              if line.startswith('export '):
+                line = line[7:]  # Remove 'export ' prefix
+              
+              key, value = line.split('=', 1)
+              key = key.strip()
+              value = value.strip().strip('"\'')  # Remove quotes
+              
+              # Handle variable expansion like ${VK_VAR_password}
+              if value.startswith('${') and value.endswith('}'):
+                ref_var = value[2:-1]  # Remove ${ and }
+                value = os.environ.get(ref_var, value)  # Use referenced value or keep original
+              
+              os.environ[key] = value
+      except Exception:
+        pass  # Fail silently if .env file cannot be read
+
   def __load_os(self, vars:dict) -> dict:
     self.log.fn = self.__class__.__name__ + '.' + self.__load_os.__name__
+    # Load .env file first
+    self.__load_env_file()
+
     for key, val in os.environ.items():
       if key[:7] == 'VK_VAR_':
         var = key[7:]

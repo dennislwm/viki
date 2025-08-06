@@ -24,7 +24,7 @@ def main():
 
   # Create the SSH connection
   ssh = MySSH()
-  ssh.set_verbosity(False)
+  ssh.set_verbosity(True)
   ssh.connect(
     hostname=request.vars['hostname'],
     username=request.vars['username'],
